@@ -1,6 +1,7 @@
 package iteration
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -32,4 +33,10 @@ func assertCorrectMessage(t testing.TB, repeated, expected string) {
 	if repeated != expected {
 		t.Errorf("expected %q but got %q", expected, repeated)
 	}
+}
+
+func ExampleRepeat() {
+	result := Repeat("t", 5)
+	fmt.Println(result)
+	// Output: ttttt
 }
