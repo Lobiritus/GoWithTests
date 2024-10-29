@@ -13,7 +13,6 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
-
 	areaTest := []struct {
 		name    string
 		shape   Shape
