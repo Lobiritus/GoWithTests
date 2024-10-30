@@ -47,6 +47,39 @@ func TestAdd(t *testing.T) {
 
 }
 
+func TestUpdate(t *testing.T) {
+	t.Run("existing word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{word: definition}
+		newDefinition := "new definition for test"
+
+		err := dictionary.Update(word, newDefinition)
+		assertError(t, err, nil)
+		assertDefinition(t, dictionary, word, newDefinition)
+	})
+
+	t.Run("new word", func(t *testing.T) {
+		word := "newWord"
+		definition := "newWord test definition"
+		dictionary := Dictionary{}
+
+		err := dictionary.Update(word, definition)
+		assertError(t, err, ErrWordDoesNotExist)
+	})
+
+}
+
+func TestDelete(t *testing.T) {
+	word := "test"
+	definition := "this is just a test"
+	dictionary := Dictionary{word: definition}
+
+	dictionary.Delete(dictionary, word)
+	_, err := dictionary.Search(word)
+	assertError(t, err, ErrNotFound)
+}
+
 func assertStrings(t testing.TB, got, want, given string) {
 	t.Helper()
 	if got != want {
@@ -57,7 +90,7 @@ func assertStrings(t testing.TB, got, want, given string) {
 func assertError(t testing.TB, got, want error) {
 	t.Helper()
 	if got != want {
-		t.Errorf("got error %q want %q", got, want)
+		t.Errorf("got error %q want %v", got, want)
 	}
 }
 
