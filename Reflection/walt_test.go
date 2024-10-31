@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestWalt(t *testing.T) {
+func TestWalk(t *testing.T) {
 	cases := []struct {
 		Name          string
 		Input         interface{}
