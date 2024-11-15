@@ -1,11 +1,9 @@
 package ArraysAndSlices
 
 func SumSlice(slice []int) int {
-	var result int
-	for _, v := range slice {
-		result += v
-	}
-	return result
+	add := func(acc, x int) int { return acc + x }
+
+	return Reduce(slice, add, 0)
 }
 
 func SumArray(arr [5]int) int {
@@ -25,14 +23,21 @@ func SumAll(slice ...[]int) []int {
 }
 
 func SumAllTails(slice ...[]int) []int {
-	var result []int
-	for _, numbers := range slice {
-
-		if len(numbers) == 0 {
-			result = append(result, 0)
+	sumTail := func(acc, x []int) []int {
+		if len(x) == 0 {
+			return append(acc, 0)
 		} else {
-			result = append(result, SumSlice(numbers[1:]))
+			tail := x[1:]
+			return append(acc, SumSlice(tail))
 		}
+	}
+	return Reduce(slice, sumTail, []int{})
+}
+
+func Reduce[A any](collection []A, f func(A, A) A, initialValue A) A {
+	var result = initialValue
+	for _, x := range collection {
+		result = f(result, x)
 	}
 	return result
 }
